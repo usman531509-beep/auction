@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/cron/close-auctions",
-      "schedule": "*/5 * * * *"
+      "path": "/api/my-cron-handler",
+      "schedule": "0 5 * * *" 
     }
   ]
 }
