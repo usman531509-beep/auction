@@ -1,0 +1,35 @@
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { z } from "zod";
+import { dbConnect } from "./db";
+import User from "@/models/User";
+import { authConfig } from "./auth.config";
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
+  providers: [
+    Credentials({
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const parsed = z
+          .object({ email: z.string().email(), password: z.string().min(1) })
+          .safeParse(credentials);
+        if (!parsed.success) return null;
+        await dbConnect();
+        const user = await User.findOne({ email: parsed.data.email }).select("+password");
+        if (!user) return null;
+        const ok = await user.comparePassword(parsed.data.password);
+        if (!ok) return null;
+        return {
+          id: String(user._id),
+          name: user.name,
+          email: user.email,
+          role: user.role as "user" | "admin",
+        };
+      },
+    }),
+  ],
+});
