@@ -6,7 +6,11 @@ import HomeClient from "./HomeClient";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  await dbConnect();
+  try {
+    await dbConnect();
+  } catch (e: any) {
+    throw new Error(`DB connect failed: ${e?.message ?? e}`);
+  }
   await sweepExpiredAuctions();
 
   const [featured, allActive, latest] = await Promise.all([
