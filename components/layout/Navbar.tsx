@@ -84,7 +84,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg group">
           <Image
-            src="/uploads/Screenshot_2026-04-17_at_12.02.05_PM-removebg-preview.png"
+            src="/logo.png"
             alt="クルマリンク"
             width={40}
             height={40}

@@ -10,7 +10,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-2 font-bold text-lg mb-4">
               <Image
-                src="/uploads/Screenshot_2026-04-17_at_12.02.05_PM-removebg-preview.png"
+                src="/logo.png"
                 alt="クルマリンク"
                 width={40}
                 height={40}
