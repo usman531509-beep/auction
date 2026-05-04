@@ -5,8 +5,9 @@ import type { NavItem } from "@/components/panel/Sidebar";
 
 const items: NavItem[] = [
   { href: "/dashboard", label: "Overview", icon: "dashboard" },
-  { href: "/dashboard/bids", label: "My bids", icon: "receipt" },
-  { href: "/auctions", label: "Browse auctions", icon: "gavel" },
+  { href: "/dashboard/orders", label: "My orders", icon: "orders" },
+  { href: "/cars", label: "Browse cars", icon: "car" },
+  { href: "/cart", label: "Cart", icon: "receipt" },
 ];
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {

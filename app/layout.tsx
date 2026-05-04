@@ -3,8 +3,8 @@ import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "クルマリンク — Car Auctions",
-  description: "Modern car auction marketplace.",
+  title: "クルマリンク — Car Store",
+  description: "Premium cars at transparent prices.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

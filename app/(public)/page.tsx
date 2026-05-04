@@ -1,46 +1,27 @@
 import { dbConnect } from "@/lib/db";
-import Auction from "@/models/Auction";
-import { sweepExpiredAuctions } from "@/lib/auctions";
+import Car from "@/models/Car";
 import HomeClient from "./HomeClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   await dbConnect();
-  await sweepExpiredAuctions();
 
-  const [featured, allActive, latest] = await Promise.all([
-    Auction.find({ featured: true, status: "active" })
-      .sort({ endTime: 1 })
-      .limit(12)
-      .lean(),
-    Auction.find({ status: "active" })
-      .sort({ currentPrice: -1 })
-      .limit(20)
-      .lean(),
-    Auction.find({ status: "active" })
-      .sort({ createdAt: -1 })
-      .limit(12)
-      .lean(),
+  const baseFilter = { status: { $ne: "hidden" } };
+  const [featured, latest] = await Promise.all([
+    Car.find({ ...baseFilter, featured: true }).sort({ createdAt: -1 }).limit(8).lean(),
+    Car.find(baseFilter).sort({ createdAt: -1 }).limit(8).lean(),
   ]);
 
-  const serialize = (a: any) => ({
-    _id: String(a._id),
-    title: a.title,
-    brand: a.brand,
-    carModel: a.carModel,
-    year: a.year,
-    images: a.images,
-    currentPrice: a.currentPrice,
-    endTime: a.endTime.toISOString(),
-    status: a.status,
+  const serialize = (c: any) => ({
+    _id: String(c._id),
+    title: c.title,
+    brand: c.brand,
+    year: c.year,
+    images: c.images,
+    price: c.price,
+    status: c.status,
   });
 
-  return (
-    <HomeClient
-      featured={featured.map(serialize)}
-      allActive={allActive.map(serialize)}
-      latest={latest.map(serialize)}
-    />
-  );
+  return <HomeClient featured={featured.map(serialize)} latest={latest.map(serialize)} />;
 }

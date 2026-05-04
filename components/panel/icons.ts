@@ -1,12 +1,13 @@
-import { LayoutDashboard, Gavel, Users, Receipt, PlusCircle, Tag, type LucideIcon } from "lucide-react";
+import { LayoutDashboard, Car, Users, ShoppingBag, PlusCircle, Tag, Receipt, type LucideIcon } from "lucide-react";
 
-export type IconKey = "dashboard" | "gavel" | "users" | "receipt" | "plus" | "tag";
+export type IconKey = "dashboard" | "car" | "users" | "orders" | "plus" | "tag" | "receipt";
 
 export const iconMap: Record<IconKey, LucideIcon> = {
   dashboard: LayoutDashboard,
-  gavel: Gavel,
+  car: Car,
   users: Users,
-  receipt: Receipt,
+  orders: ShoppingBag,
   plus: PlusCircle,
   tag: Tag,
+  receipt: Receipt,
 };

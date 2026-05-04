@@ -1,16 +1,15 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/lib/db";
 import Brand from "@/models/Brand";
-import Auction from "@/models/Auction";
+import Car from "@/models/Car";
 import { requireAdmin } from "@/lib/authz";
 
 export async function GET() {
   await dbConnect();
   const brands = await Brand.find().sort({ name: 1 }).lean();
 
-  // Compute live item counts from auctions
-  const counts = await Auction.aggregate([
-    { $match: { status: "active" } },
+  const counts = await Car.aggregate([
+    { $match: { status: "available" } },
     { $group: { _id: "$brand", count: { $sum: 1 } } },
   ]);
   const countMap: Record<string, number> = {};

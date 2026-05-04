@@ -1,51 +1,31 @@
 "use client";
 import HeroSection from "@/components/home/HeroSection";
-import MarqueeBanner from "@/components/home/MarqueeBanner";
-import CategorySection from "@/components/home/CategorySection";
-import LatestAuction from "@/components/home/LatestAuction";
-import FeaturedBanner from "@/components/home/FeaturedBanner";
-import UpcomingAuction from "@/components/home/UpcomingAuction";
-import PopularAuction from "@/components/home/PopularAuction";
-import WorkProcess from "@/components/home/WorkProcess";
-import FAQSection from "@/components/home/FAQSection";
+import BrandsSection from "@/components/home/BrandsSection";
+import FeaturedCars from "@/components/home/FeaturedCars";
 
-type AuctionItem = {
+type CarItem = {
   _id: string;
   title: string;
   brand: string;
-  carModel: string;
   year: number;
   images: string[];
-  currentPrice: number;
-  endTime: string;
+  price: number;
   status: string;
 };
 
 export default function HomeClient({
   featured,
-  allActive,
   latest,
 }: {
-  featured: AuctionItem[];
-  allActive: AuctionItem[];
-  latest: AuctionItem[];
+  featured: CarItem[];
+  latest: CarItem[];
 }) {
-  const latestAuctions = latest.length > 0 ? latest.slice(0, 8) : allActive.slice(0, 8);
-  const featuredBanner = featured[0] ?? allActive[0] ?? null;
-  const upcomingAuctions = allActive.slice(0, 5);
-  const popularAuctions = allActive.slice(0, 9);
-
   return (
     <div>
       <HeroSection />
-      <MarqueeBanner />
-      <CategorySection />
-      <LatestAuction auctions={latestAuctions} />
-      <FeaturedBanner auction={featuredBanner} />
-      <UpcomingAuction auctions={upcomingAuctions} />
-      <PopularAuction auctions={popularAuctions} />
-      <WorkProcess />
-      <FAQSection />
+      <BrandsSection />
+      {featured.length > 0 && <FeaturedCars cars={featured} title="Featured" highlight="Cars" />}
+      <FeaturedCars cars={latest} title="Latest" highlight="Arrivals" />
     </div>
   );
 }

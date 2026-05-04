@@ -1,22 +1,23 @@
 import Link from "next/link";
-import { PlusCircle, Gavel, Users, Receipt, TrendingUp } from "lucide-react";
+import { PlusCircle, Car as CarIcon, Users, ShoppingBag, TrendingUp } from "lucide-react";
 import { dbConnect } from "@/lib/db";
 import User from "@/models/User";
-import Auction from "@/models/Auction";
-import Bid from "@/models/Bid";
+import Car from "@/models/Car";
+import Order from "@/models/Order";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { formatPrice } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminHome() {
   await dbConnect();
-  const [users, active, ended, bids, recent] = await Promise.all([
+  const [users, available, sold, orders, recent] = await Promise.all([
     User.countDocuments(),
-    Auction.countDocuments({ status: "active" }),
-    Auction.countDocuments({ status: "ended" }),
-    Bid.countDocuments(),
-    Auction.find().sort({ createdAt: -1 }).limit(5).lean(),
+    Car.countDocuments({ status: "available" }),
+    Car.countDocuments({ status: "sold" }),
+    Order.countDocuments(),
+    Order.find().sort({ createdAt: -1 }).limit(5).lean(),
   ]);
 
   return (
@@ -24,37 +25,37 @@ export default async function AdminHome() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Overview</h1>
-          <p className="text-sm text-ink-muted">Snapshot of your auctions, users, and bids.</p>
+          <p className="text-sm text-ink-muted">Snapshot of your inventory and orders.</p>
         </div>
         <Button asChild>
-          <Link href="/admin/auctions/new"><PlusCircle className="h-4 w-4" /> New auction</Link>
+          <Link href="/admin/cars/new"><PlusCircle className="h-4 w-4" /> New car</Link>
         </Button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Stat icon={Users} label="Users" value={users} />
-        <Stat icon={Gavel} label="Active auctions" value={active} />
-        <Stat icon={TrendingUp} label="Ended auctions" value={ended} />
-        <Stat icon={Receipt} label="Total bids" value={bids} />
+        <Stat icon={CarIcon} label="Available cars" value={available} />
+        <Stat icon={TrendingUp} label="Sold cars" value={sold} />
+        <Stat icon={ShoppingBag} label="Total orders" value={orders} />
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Recent auctions</CardTitle>
-          <CardDescription>Latest auctions you've created.</CardDescription>
+          <CardTitle>Recent orders</CardTitle>
+          <CardDescription>Latest orders placed by customers.</CardDescription>
         </CardHeader>
         <CardContent className="pt-0">
           {recent.length === 0 ? (
-            <p className="text-sm text-ink-muted">No auctions yet. <Link href="/admin/auctions/new" className="text-accent">Create one →</Link></p>
+            <p className="text-sm text-ink-muted">No orders yet.</p>
           ) : (
             <ul className="divide-y divide-border">
-              {recent.map((a: any) => (
-                <li key={String(a._id)} className="flex items-center justify-between py-3">
+              {recent.map((o: any) => (
+                <li key={String(o._id)} className="flex items-center justify-between py-3">
                   <div className="min-w-0">
-                    <div className="font-medium truncate">{a.title}</div>
-                    <div className="text-xs text-ink-muted">{a.brand} · {a.year}</div>
+                    <div className="font-medium truncate">{o.name} <span className="text-ink-muted text-xs">({o.email})</span></div>
+                    <div className="text-xs text-ink-muted">{o.items.length} item(s) · {o.status}</div>
                   </div>
-                  <Link href={`/admin/auctions/${a._id}/edit`} className="text-xs text-accent hover:underline">Edit</Link>
+                  <div className="text-sm font-semibold">{formatPrice(o.total)}</div>
                 </li>
               ))}
             </ul>

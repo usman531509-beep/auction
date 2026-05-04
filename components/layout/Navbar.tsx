@@ -14,11 +14,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LayoutDashboard, Settings, LogOut, Menu, X, Mail, Headphones } from "lucide-react";
+import { LayoutDashboard, Settings, LogOut, Menu, X, Mail, Headphones, ShoppingCart } from "lucide-react";
+import { useCart } from "@/components/cart/CartProvider";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Auctions", href: "/auctions" },
+  { label: "Cars", href: "/cars" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -29,6 +30,7 @@ export default function Navbar() {
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { count } = useCart();
 
   useEffect(() => {
     if (!isHome) return;
@@ -38,7 +40,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHome]);
 
-  // On non-home pages, always use solid style
   const solid = !isHome || scrolled;
 
   return (
@@ -49,12 +50,9 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      {/* Top info bar */}
       <div
         className={`transition-all duration-300 ${
-          solid
-            ? "bg-ink border-b border-white/10"
-            : "bg-black/40 backdrop-blur-sm border-b border-white/10"
+          solid ? "bg-ink border-b border-white/10" : "bg-black/40 backdrop-blur-sm border-b border-white/10"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
@@ -69,14 +67,12 @@ export default function Navbar() {
             </span>
           </div>
           <div className="flex items-center gap-4 text-white/70 text-sm">
-            <Link href="/auctions" className="hover:text-white transition-colors">
-              How To Bid
+            <Link href="/cars" className="hover:text-white transition-colors">
+              Browse Cars
             </Link>
-            <Link href="/register" className="hover:text-white transition-colors">
-              Sell Your Item
+            <Link href="/contact" className="hover:text-white transition-colors">
+              Contact
             </Link>
-            <span className="hidden sm:inline text-white/40">|</span>
-            <span className="hidden sm:inline text-white/50">Language</span>
           </div>
         </div>
       </div>
@@ -93,13 +89,10 @@ export default function Navbar() {
           <span className={solid ? "text-ink" : "text-white"}>クルマリンク</span>
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((item) => {
             const isActive =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
+              item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.label}
@@ -121,6 +114,21 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link
+            href="/cart"
+            className={`relative inline-flex items-center justify-center h-9 w-9 rounded-lg transition-colors ${
+              solid ? "hover:bg-surface text-ink" : "hover:bg-white/10 text-white"
+            }`}
+            aria-label="Cart"
+          >
+            <ShoppingCart className="h-5 w-5" />
+            {count > 0 && (
+              <span className="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 rounded-full bg-accent text-white text-[10px] font-bold flex items-center justify-center">
+                {count}
+              </span>
+            )}
+          </Link>
+
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -159,29 +167,17 @@ export default function Navbar() {
                 variant="outline"
                 size="sm"
                 asChild
-                className={
-                  solid
-                    ? ""
-                    : "border-white/30 text-white bg-transparent hover:bg-white/10"
-                }
+                className={solid ? "" : "border-white/30 text-white bg-transparent hover:bg-white/10"}
               >
                 <Link href="/login">Log in</Link>
               </Button>
-              <Button
-                size="sm"
-                asChild
-                className="bg-accent hover:bg-accent-hover text-white"
-              >
-                <Link href="/register">My Account</Link>
+              <Button size="sm" asChild className="bg-accent hover:bg-accent-hover text-white">
+                <Link href="/register">Sign up</Link>
               </Button>
             </>
           )}
 
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden ml-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
+          <button className="md:hidden ml-2" onClick={() => setMobileOpen(!mobileOpen)}>
             {mobileOpen ? (
               <X className={`h-6 w-6 ${solid ? "text-ink" : "text-white"}`} />
             ) : (
@@ -191,24 +187,19 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-line shadow-lift-lg animate-fade-up">
           <div className="px-6 py-4 space-y-2">
             {navLinks.map((item) => {
               const isActive =
-                item.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(item.href);
+                item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? "text-accent bg-accent-soft"
-                      : "text-ink hover:bg-surface"
+                    isActive ? "text-accent bg-accent-soft" : "text-ink hover:bg-surface"
                   }`}
                 >
                   {item.label}

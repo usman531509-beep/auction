@@ -1,0 +1,51 @@
+import Link from "next/link";
+import SafeImage from "@/components/ui/safe-image";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { formatPrice } from "@/lib/utils";
+
+type Props = {
+  car: {
+    _id: string;
+    title: string;
+    brand: string;
+    carModel: string;
+    year: number;
+    images: string[];
+    price: number;
+    status: string;
+  };
+};
+
+export default function CarCard({ car }: Props) {
+  const img = car.images[0] ?? `https://picsum.photos/seed/${car._id}/600/400`;
+  const sold = car.status === "sold";
+  return (
+    <Link href={`/cars/${car._id}`} className="block group">
+      <Card className="overflow-hidden hover:shadow-lift transition-shadow">
+        <div className="relative aspect-[5/3] bg-surface overflow-hidden">
+          <SafeImage
+            src={img}
+            alt={car.title}
+            fill
+            sizes="(max-width:768px) 100vw, 33vw"
+            className="object-cover group-hover:scale-[1.02] transition-transform"
+          />
+          <div className="absolute top-2 left-2">
+            <Badge variant={sold ? "secondary" : "default"}>{sold ? "Sold" : "Available"}</Badge>
+          </div>
+        </div>
+        <div className="p-4 space-y-2">
+          <span className="text-xs uppercase tracking-wide text-ink-muted">
+            {car.brand} · {car.year}
+          </span>
+          <h3 className="font-medium text-ink line-clamp-1">{car.title}</h3>
+          <div className="flex items-baseline justify-between pt-1">
+            <span className="text-xs text-ink-muted">Price</span>
+            <span className="text-lg font-semibold text-ink">{formatPrice(car.price)}</span>
+          </div>
+        </div>
+      </Card>
+    </Link>
+  );
+}

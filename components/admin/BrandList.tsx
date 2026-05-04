@@ -98,7 +98,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
   }
 
   async function onDelete(brand: Brand) {
-    if (!confirm(`Delete brand "${brand.name}"? This won't affect existing auctions.`)) return;
+    if (!confirm(`Delete brand "${brand.name}"? This won't affect existing cars.`)) return;
     const res = await fetch(`/api/brands/${brand._id}`, { method: "DELETE" });
     if (!res.ok) return toast.error("Failed to delete");
     toast.success("Brand deleted");
@@ -111,7 +111,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Brands</h1>
           <p className="text-sm text-ink-muted">
-            Manage car brands. These appear in the auction form and on the home page.
+            Manage car brands. These appear in the car form and on the home page.
           </p>
         </div>
         <Button onClick={openCreate}>
@@ -204,7 +204,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
             <TableRow>
               <TableHead>Logo</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Active Auctions</TableHead>
+              <TableHead>Available Cars</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>

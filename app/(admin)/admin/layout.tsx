@@ -5,10 +5,10 @@ import type { NavItem } from "@/components/panel/Sidebar";
 
 const items: NavItem[] = [
   { href: "/admin", label: "Overview", icon: "dashboard" },
-  { href: "/admin/auctions", label: "Auctions", icon: "gavel" },
+  { href: "/admin/cars", label: "Cars", icon: "car" },
   { href: "/admin/brands", label: "Brands", icon: "tag" },
+  { href: "/admin/orders", label: "Orders", icon: "orders" },
   { href: "/admin/users", label: "Users", icon: "users" },
-  { href: "/admin/bids", label: "Bids", icon: "receipt" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

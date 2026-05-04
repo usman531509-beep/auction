@@ -6,7 +6,6 @@ export default function Footer() {
     <footer className="bg-ink text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 font-bold text-lg mb-4">
               <Image
@@ -19,52 +18,36 @@ export default function Footer() {
               クルマリンク
             </Link>
             <p className="text-sm text-white/60 leading-relaxed">
-              Premium car auctions you can trust. Transparent bidding, fair pricing, zero hassle.
+              Premium cars you can trust. Transparent pricing, hassle-free ordering, fast delivery.
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/80">
               Quick Links
             </h4>
             <ul className="space-y-3">
-              {["Home", "Auctions", "How to Bid", "Contact"].map((item) => (
-                <li key={item}>
-                  <Link
-                    href={item === "Home" ? "/" : item === "Auctions" ? "/auctions" : "#"}
-                    className="text-sm text-white/60 hover:text-accent transition-colors"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              <li><Link href="/" className="text-sm text-white/60 hover:text-accent transition-colors">Home</Link></li>
+              <li><Link href="/cars" className="text-sm text-white/60 hover:text-accent transition-colors">Cars</Link></li>
+              <li><Link href="/cart" className="text-sm text-white/60 hover:text-accent transition-colors">Cart</Link></li>
+              <li><Link href="/contact" className="text-sm text-white/60 hover:text-accent transition-colors">Contact</Link></li>
             </ul>
           </div>
 
-          {/* Support */}
           <div>
             <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/80">
-              Support
+              Account
             </h4>
             <ul className="space-y-3">
-              {["FAQ", "Terms of Service", "Privacy Policy", "Help Center"].map((item) => (
-                <li key={item}>
-                  <Link
-                    href="#"
-                    className="text-sm text-white/60 hover:text-accent transition-colors"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              <li><Link href="/login" className="text-sm text-white/60 hover:text-accent transition-colors">Log in</Link></li>
+              <li><Link href="/register" className="text-sm text-white/60 hover:text-accent transition-colors">Sign up</Link></li>
+              <li><Link href="/dashboard" className="text-sm text-white/60 hover:text-accent transition-colors">My orders</Link></li>
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/80">
-              Contact Us
+              Contact
             </h4>
             <ul className="space-y-3 text-sm text-white/60">
               <li>info@kurumalink.com</li>
@@ -78,7 +61,7 @@ export default function Footer() {
           <span className="text-sm text-white/40">
             &copy; {new Date().getFullYear()} クルマリンク. All rights reserved.
           </span>
-          <span className="text-sm text-white/40">Modern car auctions</span>
+          <span className="text-sm text-white/40">Premium car store</span>
         </div>
       </div>
     </footer>
