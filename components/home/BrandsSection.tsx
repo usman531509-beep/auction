@@ -57,19 +57,27 @@ export default function BrandsSection() {
             <Link
               key={brand._id}
               href={`/cars?brand=${encodeURIComponent(brand.name)}`}
-              className="block"
+              className="block group"
             >
-              <div className="bg-white rounded-2xl p-6 text-center hover:shadow-lift transition-all duration-300 hover:-translate-y-1 border border-transparent hover:border-line group">
-                <div className="h-16 w-16 mx-auto mb-4 rounded-full bg-surface flex items-center justify-center group-hover:bg-accent-soft transition-colors overflow-hidden">
+              <div className="p-6 text-center transition-all duration-300 hover:-translate-y-1">
+                <div className="h-16 w-16 mx-auto mb-4 flex items-center justify-center overflow-hidden">
                   {brand.logo ? (
-                    <Image src={brand.logo} alt={brand.name} width={48} height={48} className="object-contain" />
+                    <Image
+                      src={brand.logo}
+                      alt={brand.name}
+                      width={64}
+                      height={64}
+                      className="object-contain transition-transform group-hover:scale-110"
+                    />
                   ) : (
                     <span className="text-xl font-bold text-ink-muted group-hover:text-accent transition-colors">
                       {brand.name.slice(0, 2).toUpperCase()}
                     </span>
                   )}
                 </div>
-                <h3 className="font-semibold text-ink text-sm">{brand.name}</h3>
+                <h3 className="font-semibold text-ink text-sm group-hover:text-accent transition-colors">
+                  {brand.name}
+                </h3>
                 <p className="text-xs text-ink-muted mt-1">{brand.itemCount} cars</p>
               </div>
             </Link>

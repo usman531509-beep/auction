@@ -20,17 +20,17 @@ const config: Config = {
           muted: "#6b7280",
         },
         accent: {
-          DEFAULT: "#3cb878",
-          hover: "#2da366",
-          soft: "#e8f5ee",
+          DEFAULT: "#e11d2e",
+          hover: "#b8121f",
+          soft: "#fde7e9",
         },
         border: "hsl(220 13% 91%)",
         input: "hsl(220 13% 91%)",
-        ring: "hsl(152 50% 48%)",
+        ring: "hsl(354 78% 50%)",
         background: "hsl(0 0% 100%)",
         foreground: "hsl(222 47% 11%)",
         primary: {
-          DEFAULT: "#3cb878",
+          DEFAULT: "#e11d2e",
           foreground: "hsl(0 0% 100%)",
         },
         secondary: {

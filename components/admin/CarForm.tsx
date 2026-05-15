@@ -18,6 +18,7 @@ type Values = {
   price: number | "";
   mileage: number | "";
   color: string;
+  country: string;
   transmission: "automatic" | "manual" | "";
   fuel: "petrol" | "diesel" | "hybrid" | "electric" | "";
   stock: number | "";
@@ -40,6 +41,7 @@ export default function CarForm({ car }: { car?: any }) {
     price: car?.price ?? "",
     mileage: car?.mileage ?? "",
     color: car?.color ?? "",
+    country: car?.country ?? "",
     transmission: car?.transmission ?? "",
     fuel: car?.fuel ?? "",
     stock: car?.stock ?? 1,
@@ -130,6 +132,7 @@ export default function CarForm({ car }: { car?: any }) {
           <Field label="Model"><Input required value={v.carModel} onChange={(e) => set("carModel", e.target.value)} /></Field>
           <Field label="Year"><Input required type="number" value={v.year} onChange={(e) => set("year", Number(e.target.value) || "")} /></Field>
           <Field label="Color"><Input value={v.color} onChange={(e) => set("color", e.target.value)} /></Field>
+          <Field label="Country"><Input value={v.country} onChange={(e) => set("country", e.target.value)} placeholder="e.g. Japan" /></Field>
           <Field label="Mileage (km)"><Input type="number" min={0} value={v.mileage} onChange={(e) => set("mileage", Number(e.target.value) || "")} /></Field>
           <Field label="Transmission">
             <select className={selectClass} value={v.transmission} onChange={(e) => set("transmission", e.target.value as any)}>

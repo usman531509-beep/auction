@@ -77,16 +77,16 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg group">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <Link href="/" className="flex items-center group">
           <Image
             src="/logo.png"
             alt="クルマリンク"
-            width={40}
-            height={40}
-            className="h-16 w-16 object-contain transition-transform group-hover:scale-110"
+            width={220}
+            height={80}
+            priority
+            className="h-20 w-auto object-contain transition-transform group-hover:scale-105"
           />
-          <span className={solid ? "text-ink" : "text-white"}>クルマリンク</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">

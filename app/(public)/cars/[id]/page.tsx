@@ -57,6 +57,7 @@ export default async function CarDetailPage({ params }: { params: { id: string }
               {c.transmission ? <Badge variant="secondary">{c.transmission}</Badge> : null}
               {c.fuel ? <Badge variant="secondary">{c.fuel}</Badge> : null}
               {c.color ? <Badge variant="secondary">{c.color}</Badge> : null}
+              {c.country ? <Badge variant="secondary">{c.country}</Badge> : null}
             </div>
             <p className="text-ink-soft mt-4 whitespace-pre-line">{c.description || "No description."}</p>
           </CardContent>

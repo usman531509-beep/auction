@@ -7,15 +7,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg mb-4">
+            <Link href="/" className="inline-block mb-4">
               <Image
                 src="/logo.png"
                 alt="クルマリンク"
-                width={40}
-                height={40}
-                className="h-20 w-20 object-contain"
+                width={320}
+                height={110}
+                className="h-24 w-auto object-contain"
               />
-              クルマリンク
             </Link>
             <p className="text-sm text-white/60 leading-relaxed">
               Premium cars you can trust. Transparent pricing, hassle-free ordering, fast delivery.

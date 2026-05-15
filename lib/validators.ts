@@ -21,6 +21,7 @@ export const carSchema = z.object({
   price: z.coerce.number().min(0),
   mileage: z.coerce.number().min(0).optional().default(0),
   color: z.string().optional().default(""),
+  country: z.string().optional().default(""),
   transmission: z.enum(["automatic", "manual", ""]).optional().default(""),
   fuel: z.enum(["petrol", "diesel", "hybrid", "electric", ""]).optional().default(""),
   stock: z.coerce.number().int().min(0).optional().default(1),

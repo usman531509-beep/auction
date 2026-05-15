@@ -11,6 +11,7 @@ const CarSchema = new Schema(
     price: { type: Number, required: true, min: 0 },
     mileage: { type: Number, default: 0 },
     color: { type: String, default: "" },
+    country: { type: String, default: "", trim: true, index: true },
     transmission: { type: String, enum: ["automatic", "manual", ""], default: "" },
     fuel: { type: String, enum: ["petrol", "diesel", "hybrid", "electric", ""], default: "" },
     stock: { type: Number, default: 1, min: 0 },
