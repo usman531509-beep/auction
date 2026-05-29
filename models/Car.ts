@@ -15,6 +15,7 @@ const CarSchema = new Schema(
     transmission: { type: String, enum: ["automatic", "manual", ""], default: "" },
     fuel: { type: String, enum: ["petrol", "diesel", "hybrid", "electric", ""], default: "" },
     stock: { type: Number, default: 1, min: 0 },
+    specs: { type: [{ type: Schema.Types.ObjectId, ref: "Spec" }], default: [] },
     featured: { type: Boolean, default: false, index: true },
     status: { type: String, enum: ["available", "sold", "hidden"], default: "available", index: true },
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },

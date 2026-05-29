@@ -5,7 +5,7 @@ import { getServerT } from "@/lib/i18n-server";
 export default function Footer() {
   const { t } = getServerT();
   return (
-    <footer className="bg-ink text-white">
+    <footer className="bg-accent text-ink">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
@@ -16,41 +16,42 @@ export default function Footer() {
                 width={320}
                 height={110}
                 className="h-24 w-auto object-contain"
+                style={{ filter: "brightness(0)" }}
               />
             </Link>
-            <p className="text-sm text-white/60 leading-relaxed">
+            <p className="text-sm text-ink/80 leading-relaxed">
               {t("footer.tagline")}
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/80">
+            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-ink">
               {t("footer.quickLinks")}
             </h4>
             <ul className="space-y-3">
-              <li><Link href="/" className="text-sm text-white/60 hover:text-accent transition-colors">{t("nav.home")}</Link></li>
-              <li><Link href="/cars" className="text-sm text-white/60 hover:text-accent transition-colors">{t("nav.cars")}</Link></li>
-              <li><Link href="/cart" className="text-sm text-white/60 hover:text-accent transition-colors">{t("nav.cart")}</Link></li>
-              <li><Link href="/contact" className="text-sm text-white/60 hover:text-accent transition-colors">{t("nav.contact")}</Link></li>
+              <li><Link href="/" className="text-sm text-ink/80 hover:text-ink transition-colors">{t("nav.home")}</Link></li>
+              <li><Link href="/cars" className="text-sm text-ink/80 hover:text-ink transition-colors">{t("nav.cars")}</Link></li>
+              <li><Link href="/cart" className="text-sm text-ink/80 hover:text-ink transition-colors">{t("nav.cart")}</Link></li>
+              <li><Link href="/contact" className="text-sm text-ink/80 hover:text-ink transition-colors">{t("nav.contact")}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/80">
+            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-ink">
               {t("footer.account")}
             </h4>
             <ul className="space-y-3">
-              <li><Link href="/login" className="text-sm text-white/60 hover:text-accent transition-colors">{t("nav.login")}</Link></li>
-              <li><Link href="/register" className="text-sm text-white/60 hover:text-accent transition-colors">{t("nav.signup")}</Link></li>
-              <li><Link href="/dashboard" className="text-sm text-white/60 hover:text-accent transition-colors">{t("footer.allOrdersLink")}</Link></li>
+              <li><Link href="/login" className="text-sm text-ink/80 hover:text-ink transition-colors">{t("nav.login")}</Link></li>
+              <li><Link href="/register" className="text-sm text-ink/80 hover:text-ink transition-colors">{t("nav.signup")}</Link></li>
+              <li><Link href="/dashboard" className="text-sm text-ink/80 hover:text-ink transition-colors">{t("footer.allOrdersLink")}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-white/80">
+            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-ink">
               {t("footer.contact")}
             </h4>
-            <ul className="space-y-3 text-sm text-white/60">
+            <ul className="space-y-3 text-sm text-ink/80">
               <li>info@kurumalink.com</li>
               <li>{t("footer.contactSupport")}</li>
               <li>{t("footer.contactHours")}</li>
@@ -58,11 +59,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-sm text-white/40">
+        <div className="border-t border-ink/20 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span className="text-sm text-ink/70">
             &copy; {new Date().getFullYear()} クルマリンク. {t("footer.rights")}
           </span>
-          <span className="text-sm text-white/40">{t("footer.premiumStore")}</span>
+          <span className="text-sm text-ink/70">{t("footer.premiumStore")}</span>
         </div>
       </div>
     </footer>

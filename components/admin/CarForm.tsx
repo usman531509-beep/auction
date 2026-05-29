@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
+type SpecItem = { _id: string; name: string; category: string; description?: string };
+
 type Values = {
   title: string;
   brand: string;
@@ -24,6 +26,7 @@ type Values = {
   stock: number | "";
   status: "available" | "sold" | "hidden";
   images: string[];
+  specs: string[];
 };
 
 const selectClass =
@@ -47,17 +50,41 @@ export default function CarForm({ car }: { car?: any }) {
     stock: car?.stock ?? 1,
     status: car?.status ?? "available",
     images: car?.images ?? [],
+    specs: Array.isArray(car?.specs)
+      ? car.specs.map((s: any) => (typeof s === "string" ? s : String(s?._id ?? "")))
+      : [],
   });
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [brands, setBrands] = useState<{ _id: string; name: string }[]>([]);
+  const [specs, setSpecs] = useState<SpecItem[]>([]);
 
   useEffect(() => {
     fetch("/api/brands")
       .then((r) => r.json())
       .then((data) => setBrands(Array.isArray(data) ? data : []))
       .catch(() => {});
+    fetch("/api/specs")
+      .then((r) => r.json())
+      .then((data) => setSpecs(Array.isArray(data) ? data : []))
+      .catch(() => {});
   }, []);
+
+  function toggleSpec(id: string) {
+    setV((s) => {
+      const has = s.specs.includes(id);
+      return { ...s, specs: has ? s.specs.filter((x) => x !== id) : [...s.specs, id] };
+    });
+  }
+
+  const specsByCategory = specs.reduce<Record<string, SpecItem[]>>((acc, sp) => {
+    const key = sp.category?.trim() || "Other";
+    (acc[key] = acc[key] || []).push(sp);
+    return acc;
+  }, {});
+  const categoryOrder = Object.keys(specsByCategory).sort((a, b) =>
+    a === "Other" ? 1 : b === "Other" ? -1 : a.localeCompare(b)
+  );
 
   function set<K extends keyof Values>(k: K, val: Values[K]) {
     setV((s) => ({ ...s, [k]: val }));
@@ -176,6 +203,64 @@ export default function CarForm({ car }: { car?: any }) {
               <option value="hidden">Hidden</option>
             </select>
           </Field>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Specifications</CardTitle>
+          <CardDescription>
+            Tick the features this car has. Manage the catalog from{" "}
+            <a href="/admin/specs" className="text-accent hover:underline">/admin/specs</a>.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          {specs.length === 0 ? (
+            <p className="text-sm text-ink-muted">
+              No specifications defined yet.{" "}
+              <a href="/admin/specs" className="text-accent hover:underline">
+                Add some →
+              </a>
+            </p>
+          ) : (
+            categoryOrder.map((cat) => (
+              <div key={cat}>
+                <div className="text-[11px] uppercase tracking-wider text-ink-muted mb-2">
+                  {cat}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
+                  {specsByCategory[cat].map((sp) => {
+                    const checked = v.specs.includes(sp._id);
+                    return (
+                      <label
+                        key={sp._id}
+                        className={`flex items-start gap-2 rounded-md border px-3 py-2 cursor-pointer transition-colors ${
+                          checked
+                            ? "border-accent bg-accent-soft/40"
+                            : "border-border hover:bg-surface"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => toggleSpec(sp._id)}
+                          className="mt-0.5 h-4 w-4 accent-accent shrink-0"
+                        />
+                        <div className="min-w-0">
+                          <div className="text-sm text-ink">{sp.name}</div>
+                          {sp.description ? (
+                            <div className="text-[11px] text-ink-muted truncate">
+                              {sp.description}
+                            </div>
+                          ) : null}
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            ))
+          )}
         </CardContent>
       </Card>
 

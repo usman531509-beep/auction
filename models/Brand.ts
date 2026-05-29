@@ -4,6 +4,12 @@ const BrandSchema = new Schema(
   {
     name: { type: String, required: true, trim: true, unique: true },
     logo: { type: String, default: "" },
+    category: {
+      type: String,
+      enum: ["domestic", "imported"],
+      default: "imported",
+      index: true,
+    },
     itemCount: { type: Number, default: 0 },
   },
   { timestamps: true }

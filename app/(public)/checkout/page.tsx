@@ -61,7 +61,7 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto max-w-3xl px-4 pt-28 pb-12 text-center">
+      <div className="mx-auto max-w-3xl px-4 pt-36 pb-12 text-center">
         <h1 className="text-2xl font-semibold text-ink mb-2">{t("checkout.title")}</h1>
         <p className="text-ink-muted mb-4">{t("checkout.cartEmpty")}</p>
         <Button asChild>
@@ -72,7 +72,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 pt-28 pb-12">
+    <div className="mx-auto max-w-5xl px-4 pt-36 pb-12">
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-ink">{t("checkout.title")}</h1>
         <p className="text-sm text-ink-muted">{t("checkout.subtitle")}</p>

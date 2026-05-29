@@ -13,11 +13,15 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json({ error: "Brand name is required" }, { status: 400 });
   }
 
-  const brand = await Brand.findByIdAndUpdate(
-    params.id,
-    { name: body.name.trim(), logo: body.logo?.trim() ?? "" },
-    { new: true }
-  );
+  const update: Record<string, any> = {
+    name: body.name.trim(),
+    logo: body.logo?.trim() ?? "",
+  };
+  if (body.category === "domestic" || body.category === "imported") {
+    update.category = body.category;
+  }
+
+  const brand = await Brand.findByIdAndUpdate(params.id, update, { new: true });
 
   if (!brand) {
     return NextResponse.json({ error: "Brand not found" }, { status: 404 });

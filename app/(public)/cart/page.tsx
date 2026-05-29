@@ -13,7 +13,7 @@ export default function CartPage() {
   const { t } = useLanguage();
 
   return (
-    <div className="mx-auto max-w-5xl px-4 pt-28 pb-12">
+    <div className="mx-auto max-w-5xl px-4 pt-36 pb-12">
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-ink">{t("cart.title")}</h1>
         <p className="text-sm text-ink-muted">{t("cart.subtitle")}</p>

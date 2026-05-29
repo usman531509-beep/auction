@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import mongoose from "mongoose";
 import { dbConnect } from "@/lib/db";
 import Car from "@/models/Car";
 import { carSchema } from "@/lib/validators";
@@ -8,6 +9,7 @@ export async function GET(req: Request) {
   await dbConnect();
   const { searchParams } = new URL(req.url);
   const brand = searchParams.get("brand");
+  const country = searchParams.get("country");
   const q = searchParams.get("q");
   const status = searchParams.get("status");
   const minPrice = Number(searchParams.get("minPrice") ?? 0) || 0;
@@ -16,6 +18,7 @@ export async function GET(req: Request) {
 
   const filter: Record<string, any> = {};
   if (brand) filter.brand = new RegExp(`^${brand}$`, "i");
+  if (country) filter.country = new RegExp(`^${country}$`, "i");
   if (status) filter.status = status;
   if (q) {
     filter.$or = [
@@ -32,7 +35,8 @@ export async function GET(req: Request) {
 
   const cars = await Car.find(filter).sort({ createdAt: -1 }).limit(limit).lean();
   const brands = await Car.distinct("brand");
-  return NextResponse.json({ cars, brands });
+  const countries = ((await Car.distinct("country")) as string[]).filter((c) => !!c);
+  return NextResponse.json({ cars, brands, countries });
 }
 
 export async function POST(req: Request) {
@@ -44,6 +48,10 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
   }
-  const doc = await Car.create({ ...parsed.data, createdBy: session!.user.id });
+  const data: Record<string, any> = { ...parsed.data };
+  if (Array.isArray(data.specs)) {
+    data.specs = data.specs.filter((s: string) => mongoose.isValidObjectId(s));
+  }
+  const doc = await Car.create({ ...data, createdBy: session!.user.id });
   return NextResponse.json(doc, { status: 201 });
 }

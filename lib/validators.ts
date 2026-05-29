@@ -25,8 +25,15 @@ export const carSchema = z.object({
   transmission: z.enum(["automatic", "manual", ""]).optional().default(""),
   fuel: z.enum(["petrol", "diesel", "hybrid", "electric", ""]).optional().default(""),
   stock: z.coerce.number().int().min(0).optional().default(1),
+  specs: z.array(z.string()).optional().default([]),
   featured: z.boolean().optional(),
   status: z.enum(["available", "sold", "hidden"]).optional(),
+});
+
+export const specSchema = z.object({
+  name: z.string().min(1).max(80),
+  category: z.string().max(60).optional().default(""),
+  description: z.string().max(280).optional().default(""),
 });
 
 export const orderItemSchema = z.object({

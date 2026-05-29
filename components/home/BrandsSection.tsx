@@ -10,6 +10,7 @@ type Brand = {
   name: string;
   logo: string;
   itemCount: number;
+  category?: "domestic" | "imported";
 };
 
 export default function BrandsSection() {
@@ -47,45 +48,76 @@ export default function BrandsSection() {
 
   if (!loaded || brands.length === 0) return null;
 
+  const domestic = brands.filter((b) => (b.category ?? "imported") === "domestic");
+  const imported = brands.filter((b) => (b.category ?? "imported") === "imported");
+
   return (
-    <section ref={sectionRef} className="animate-on-scroll bg-cream py-20">
+    <section ref={sectionRef} className="animate-on-scroll bg-cream py-10">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-end justify-between mb-12">
+        <div className="mb-6">
           <SectionHeading title={t("home.brands.title")} highlight={t("home.brands.highlight")} />
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-5">
+        {domestic.length > 0 && (
+          <BrandRow label={t("home.brands.domestic")} brands={domestic} carsSuffix={t("home.brands.carsSuffix")} />
+        )}
+        {imported.length > 0 && (
+          <div className={domestic.length > 0 ? "mt-6" : ""}>
+            <BrandRow label={t("home.brands.imported")} brands={imported} carsSuffix={t("home.brands.carsSuffix")} />
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function BrandRow({
+  label,
+  brands,
+  carsSuffix,
+}: {
+  label: string;
+  brands: Brand[];
+  carsSuffix: string;
+}) {
+  return (
+    <div>
+      <h3 className="text-sm font-semibold text-ink-soft uppercase tracking-wider mb-2">{label}</h3>
+      <div className="relative">
+        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory scroll-px-1 scrollbar-thin">
           {brands.map((brand) => (
             <Link
               key={brand._id}
               href={`/cars?brand=${encodeURIComponent(brand.name)}`}
-              className="block group"
+              className="group flex-shrink-0 w-[88px] snap-start"
             >
-              <div className="p-6 text-center transition-all duration-300 hover:-translate-y-1">
-                <div className="h-16 w-16 mx-auto mb-4 flex items-center justify-center overflow-hidden">
+              <div className="p-2 text-center transition-all duration-300 hover:-translate-y-0.5">
+                <div className="h-10 w-10 mx-auto mb-1.5 flex items-center justify-center overflow-hidden">
                   {brand.logo ? (
                     <Image
                       src={brand.logo}
                       alt={brand.name}
-                      width={64}
-                      height={64}
+                      width={40}
+                      height={40}
                       className="object-contain transition-transform group-hover:scale-110"
                     />
                   ) : (
-                    <span className="text-xl font-bold text-ink-muted group-hover:text-accent transition-colors">
+                    <span className="text-sm font-bold text-ink-muted group-hover:text-accent transition-colors">
                       {brand.name.slice(0, 2).toUpperCase()}
                     </span>
                   )}
                 </div>
-                <h3 className="font-semibold text-ink text-sm group-hover:text-accent transition-colors">
+                <h4 className="font-medium text-ink text-xs group-hover:text-accent transition-colors truncate">
                   {brand.name}
-                </h3>
-                <p className="text-xs text-ink-muted mt-1">{brand.itemCount} {t("home.brands.carsSuffix")}</p>
+                </h4>
+                <p className="text-[10px] text-ink-muted mt-0.5">
+                  {brand.itemCount} {carsSuffix}
+                </p>
               </div>
             </Link>
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -55,7 +55,7 @@ export default function Navbar() {
     >
       <div
         className={`transition-all duration-300 ${
-          solid ? "bg-ink border-b border-white/10" : "bg-black/40 backdrop-blur-sm border-b border-white/10"
+          solid ? "bg-accent border-b border-white/10" : "bg-accent/80 backdrop-blur-sm border-b border-white/10"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">

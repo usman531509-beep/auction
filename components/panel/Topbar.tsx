@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { LogOut, Home, User as UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -27,9 +28,15 @@ export default function Topbar({ title, subtitle, items, breadcrumb, user }: Pro
   return (
     <header className="sticky top-0 z-30 h-14 bg-white border-b border-border flex items-center gap-2 px-4">
       <MobileSidebar title={title} subtitle={subtitle} items={items} />
-      <Link href="/" className="hidden md:flex items-center gap-2 mr-4">
-        <span className="inline-block h-7 w-7 rounded-md bg-accent" />
-        <span className="font-semibold text-ink">{title}</span>
+      <Link href="/" className="hidden md:flex items-center mr-4">
+        <Image
+          src="/logo.png"
+          alt={title}
+          width={140}
+          height={48}
+          priority
+          className="h-10 w-auto object-contain"
+        />
       </Link>
       <div className="flex-1 min-w-0">
         <div className="text-[11px] uppercase tracking-wider text-ink-muted">{subtitle}</div>

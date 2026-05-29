@@ -12,7 +12,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-28 pb-12">
+    <div className="mx-auto max-w-6xl px-4 pt-36 pb-12">
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-ink">{t("contact.title")}</h1>
         <p className="text-sm text-ink-muted mt-2">{t("contact.subtitle")}</p>

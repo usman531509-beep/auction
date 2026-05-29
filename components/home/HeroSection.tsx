@@ -26,6 +26,11 @@ export default function HeroSection() {
   const [country, setCountry] = useState("");
   const [year, setYear] = useState("");
 
+  const DEFAULT_HERO_IMAGE =
+    "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=2000&auto=format&fit=crop";
+  const [slides, setSlides] = useState<{ _id: string; image: string; caption: string }[]>([]);
+  const [activeSlide, setActiveSlide] = useState(0);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setTitleNumber(titleNumber === titles.length - 1 ? 0 : titleNumber + 1);
@@ -47,7 +52,21 @@ export default function HeroSection() {
         if (Array.isArray(data?.countries)) setCountries(data.countries);
       })
       .catch(() => {});
+    fetch("/api/hero-slides")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) setSlides(data);
+      })
+      .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (slides.length <= 1) return;
+    const id = setInterval(() => {
+      setActiveSlide((i) => (i + 1) % slides.length);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [slides.length]);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -64,14 +83,29 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-ink">
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=2000&auto=format&fit=crop')",
-          transform: loaded ? "scale(1)" : "scale(1.1)",
-        }}
-      />
+      {slides.length === 0 ? (
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out"
+          style={{
+            backgroundImage: `url('${DEFAULT_HERO_IMAGE}')`,
+            transform: loaded ? "scale(1)" : "scale(1.1)",
+          }}
+        />
+      ) : (
+        slides.map((s, i) => (
+          <div
+            key={s._id}
+            aria-hidden={i !== activeSlide}
+            role="img"
+            aria-label={s.caption || ""}
+            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+            style={{
+              backgroundImage: `url('${s.image}')`,
+              opacity: i === activeSlide ? 1 : 0,
+            }}
+          />
+        ))
+      )}
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-32">

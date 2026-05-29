@@ -1,6 +1,6 @@
-import { LayoutDashboard, Car, Users, ShoppingBag, PlusCircle, Tag, Receipt, type LucideIcon } from "lucide-react";
+import { LayoutDashboard, Car, Users, ShoppingBag, PlusCircle, Tag, Receipt, ListChecks, Images, type LucideIcon } from "lucide-react";
 
-export type IconKey = "dashboard" | "car" | "users" | "orders" | "plus" | "tag" | "receipt";
+export type IconKey = "dashboard" | "car" | "users" | "orders" | "plus" | "tag" | "receipt" | "specs" | "carousel";
 
 export const iconMap: Record<IconKey, LucideIcon> = {
   dashboard: LayoutDashboard,
@@ -10,4 +10,6 @@ export const iconMap: Record<IconKey, LucideIcon> = {
   plus: PlusCircle,
   tag: Tag,
   receipt: Receipt,
+  specs: ListChecks,
+  carousel: Images,
 };

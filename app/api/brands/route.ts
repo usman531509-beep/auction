@@ -18,6 +18,7 @@ export async function GET() {
   const result = brands.map((b: any) => ({
     ...b,
     _id: String(b._id),
+    category: b.category ?? "imported",
     itemCount: countMap[b.name] ?? 0,
   }));
 
@@ -39,9 +40,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Brand already exists" }, { status: 409 });
   }
 
+  const category = body.category === "domestic" ? "domestic" : "imported";
+
   const doc = await Brand.create({
     name: body.name.trim(),
     logo: body.logo?.trim() ?? "",
+    category,
   });
 
   return NextResponse.json(doc, { status: 201 });

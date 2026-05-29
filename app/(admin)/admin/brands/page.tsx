@@ -20,6 +20,7 @@ export default async function AdminBrandsPage() {
     _id: String(b._id),
     name: b.name,
     logo: b.logo ?? "",
+    category: (b.category ?? "imported") as "domestic" | "imported",
     itemCount: countMap[b.name] ?? 0,
   }));
 

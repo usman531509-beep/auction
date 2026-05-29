@@ -6,13 +6,16 @@ import { getServerLang } from "@/lib/i18n-server";
 export const metadata: Metadata = {
   title: "クルマリンク — Car Store",
   description: "Premium cars at transparent prices.",
+  other: {
+    google: "notranslate",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const lang = getServerLang();
   return (
-    <html lang={lang}>
-      <body className="min-h-screen font-sans antialiased bg-surface text-ink">
+    <html lang={lang} translate="no" className="notranslate">
+      <body className="min-h-screen font-sans antialiased bg-surface text-ink" suppressHydrationWarning>
         <Providers initialLang={lang}>{children}</Providers>
       </body>
     </html>

@@ -22,6 +22,7 @@ type Brand = {
   name: string;
   logo: string;
   itemCount: number;
+  category?: "domestic" | "imported";
 };
 
 export default function BrandList({ brands }: { brands: Brand[] }) {
@@ -30,6 +31,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
   const [editId, setEditId] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [logo, setLogo] = useState("");
+  const [category, setCategory] = useState<"domestic" | "imported">("imported");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -38,6 +40,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
     setEditId(null);
     setName("");
     setLogo("");
+    setCategory("imported");
     setShowForm(true);
   }
 
@@ -45,6 +48,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
     setEditId(brand._id);
     setName(brand.name);
     setLogo(brand.logo);
+    setCategory(brand.category ?? "imported");
     setShowForm(true);
   }
 
@@ -53,6 +57,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
     setEditId(null);
     setName("");
     setLogo("");
+    setCategory("imported");
   }
 
   async function onLogoUpload(files: FileList | null) {
@@ -82,7 +87,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
     const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: name.trim(), logo }),
+      body: JSON.stringify({ name: name.trim(), logo, category }),
     });
 
     setSaving(false);
@@ -132,7 +137,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-1.5">
                 <Label>Brand name</Label>
                 <Input
@@ -141,6 +146,18 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Toyota"
                 />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label>Category</Label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value as "domestic" | "imported")}
+                  className="w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+                >
+                  <option value="domestic">Domestic</option>
+                  <option value="imported">Imported</option>
+                </select>
               </div>
 
               <div className="space-y-1.5">
@@ -204,6 +221,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
             <TableRow>
               <TableHead>Logo</TableHead>
               <TableHead>Name</TableHead>
+              <TableHead>Category</TableHead>
               <TableHead>Available Cars</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -230,6 +248,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
                   )}
                 </TableCell>
                 <TableCell className="font-medium text-ink">{brand.name}</TableCell>
+                <TableCell className="text-ink-soft capitalize">{brand.category ?? "imported"}</TableCell>
                 <TableCell className="text-ink-muted">{brand.itemCount}</TableCell>
                 <TableCell className="text-right space-x-2">
                   <Button variant="outline" size="sm" onClick={() => openEdit(brand)}>
@@ -248,7 +267,7 @@ export default function BrandList({ brands }: { brands: Brand[] }) {
             ))}
             {brands.length === 0 && (
               <TableRow>
-                <TableCell colSpan={4} className="text-center py-10 text-ink-muted">
+                <TableCell colSpan={5} className="text-center py-10 text-ink-muted">
                   No brands yet. Click &quot;Add brand&quot; to create one.
                 </TableCell>
               </TableRow>

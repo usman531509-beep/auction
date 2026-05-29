@@ -35,7 +35,7 @@ export default async function CarsPage({ searchParams }: { searchParams: SP }) {
   const countries = (countriesRaw as string[]).filter((c) => !!c);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-28 pb-8">
+    <div className="mx-auto max-w-6xl px-4 pt-36 pb-8">
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-ink">{t("cars.title")}</h1>
         <p className="text-sm text-ink-muted">{t("cars.subtitle")}</p>
